@@ -3,6 +3,8 @@
  * @createDate 2020/10/20 22:15
  */
 public class Hello {
+    private int privateInt = 200;
+
     public static void main(String[] args) {
         int a = 20000000;
         long b = 300000000L;

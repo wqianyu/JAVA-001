@@ -261,6 +261,8 @@ SourceFile: "Hello.java"
 
 ```
 
+### javap -p  显示私有属性
+
 > 常数加载指令表
 
 |类型|常数指令|范围|
