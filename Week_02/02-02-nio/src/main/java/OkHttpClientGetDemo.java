@@ -4,6 +4,7 @@ import okhttp3.Response;
 import sun.net.www.http.HttpClient;
 
 import java.io.IOException;
+import java.net.SocketException;
 import java.util.Objects;
 
 /**
@@ -27,7 +28,11 @@ public class OkHttpClientGetDemo {
         OkHttpClient client = new OkHttpClient();
         try (Response response = client.newCall(request).execute()) {
             return Objects.requireNonNull(response.body()).string();
+        } catch (SocketException e) {
+            e.printStackTrace();
         }
+
+        return null;
     }
 
 
