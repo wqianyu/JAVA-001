@@ -11,7 +11,7 @@ import java.util.Objects;
  * @createDate 2020/10/25 20:11
  */
 public class OkHttpClientGetDemo {
-    private static final String SERVER_URL = "http://localhost:8803";
+    private static final String SERVER_URL = "http://localhost:8801";
 
     public static void main(String[] args) {
         try {
