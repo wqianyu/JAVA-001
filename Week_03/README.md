@@ -10,6 +10,8 @@
 - -c 40 为40个并发
 - latency 为延迟，低延迟
 - Request/sec 为吞吐率单位，这个越高说明性能越好
+吞吐量对应的指标： QPS ，TPS
+
 
 ### 缺点：
 系统复杂度 x10 +
@@ -17,7 +19,7 @@
 故障或 BUG 导致的破坏性 x10以上
 
 ### 应对策略
-稳定性建设（混沌工程[chaos Engineering]）
+稳定性建设（混沌工程[chaos Engineering](https://item.jd.com/12542249.html)）
 > netfix 的混沌工程 [chaosmonkey](https://netflix.github.io/chaosmonkey/)
 
 

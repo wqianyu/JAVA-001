@@ -1,7 +1,8 @@
 package io.github.kimmking.gateway.inbound;
 
+import io.github.kimmking.gateway.filter.HttpRequestFilter;
+import io.github.kimmking.gateway.filter.HttpRequestFilterImpl;
 import io.github.kimmking.gateway.outbound.httpclient4.HttpOutboundHandler;
-import io.github.kimmking.gateway.outbound.okhttp.OkHttpOutboundHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.*;
@@ -13,13 +14,14 @@ public class HttpInboundHandler extends ChannelInboundHandlerAdapter {
 
     private static Logger logger = LoggerFactory.getLogger(HttpInboundHandler.class);
     private final String proxyServer;
-    private OkHttpOutboundHandler handler;
-  //  private HttpOutboundHandler handler;
+  //  private OkHttpOutboundHandler handler;
+    private HttpRequestFilter filter;
+    private HttpOutboundHandler handler;
     
     public HttpInboundHandler(String proxyServer) {
         this.proxyServer = proxyServer;
-        handler = new OkHttpOutboundHandler(this.proxyServer);
-       // handler = new HttpOutboundHandler(this.proxyServer);
+       // handler = new OkHttpOutboundHandler(this.proxyServer);
+        handler = new HttpOutboundHandler(this.proxyServer);
     }
     
     @Override
@@ -34,6 +36,8 @@ public class HttpInboundHandler extends ChannelInboundHandlerAdapter {
             FullHttpRequest fullRequest = (FullHttpRequest) msg;
             String uri = fullRequest.uri();
             logger.info("接收到的请求url为{}", uri);
+            HttpRequestFilter filter = new HttpRequestFilterImpl();
+            filter.filter(fullRequest, ctx);
             handler.handle(fullRequest, ctx);
         } catch(Exception e) {
             e.printStackTrace();

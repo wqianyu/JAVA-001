@@ -4,10 +4,7 @@ package io.github.kimmking.gateway.outbound.httpclient4;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.http.DefaultFullHttpResponse;
-import io.netty.handler.codec.http.FullHttpRequest;
-import io.netty.handler.codec.http.FullHttpResponse;
-import io.netty.handler.codec.http.HttpUtil;
+import io.netty.handler.codec.http.*;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -18,6 +15,7 @@ import org.apache.http.impl.nio.reactor.IOReactorConfig;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
+import java.util.Map;
 import java.util.concurrent.*;
 
 import static io.netty.handler.codec.http.HttpHeaderNames.CONNECTION;
@@ -59,9 +57,18 @@ public class HttpOutboundHandler {
     
     public void handle(final FullHttpRequest fullRequest, final ChannelHandlerContext ctx) {
         final String url = this.backendUrl + fullRequest.uri();
+        printMiddleRequestHeader(fullRequest.headers());
         proxyService.submit(()->fetchGet(fullRequest, ctx, url));
     }
-    
+
+    private void printMiddleRequestHeader(HttpHeaders httpHeaders) {
+        System.out.println("转发请求头为：");
+        for (Map.Entry<String, String> e: httpHeaders) {
+            System.out.println(e.getKey() + " ==> " + e.getValue());
+        }
+        System.out.println("----------");
+    }
+
     private void fetchGet(final FullHttpRequest inbound, final ChannelHandlerContext ctx, final String url) {
         final HttpGet httpGet = new HttpGet(url);
         httpGet.setHeader(HTTP.CONN_DIRECTIVE, HTTP.CONN_KEEP_ALIVE);

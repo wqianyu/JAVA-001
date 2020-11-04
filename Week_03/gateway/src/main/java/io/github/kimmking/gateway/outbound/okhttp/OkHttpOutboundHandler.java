@@ -30,11 +30,7 @@ public class OkHttpOutboundHandler {
 
     public OkHttpOutboundHandler(String backendUrl) {
         this.backendUrl = backendUrl.endsWith("/") ? backendUrl.substring(0,backendUrl.length() -1) : backendUrl;
-         client = new OkHttpClient.Builder()
-                .connectTimeout(30, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(30, TimeUnit.SECONDS)
-                .build();
+
     }
 
 
@@ -46,6 +42,12 @@ public class OkHttpOutboundHandler {
 
     private void fetchGet(final FullHttpRequest inbound, final ChannelHandlerContext ctx, final String url) {
         Headers.Builder headerBuilder = new Headers.Builder();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .build();
         for(Map.Entry<String, String> e : inbound.headers()) {
             headerBuilder.add(e.getKey(), e.getValue());
         }
