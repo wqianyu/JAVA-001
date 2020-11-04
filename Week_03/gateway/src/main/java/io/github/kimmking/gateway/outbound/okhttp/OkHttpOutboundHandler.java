@@ -11,12 +11,9 @@ import io.netty.handler.codec.http.HttpUtil;
 import okhttp3.*;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.*;
 
-import static io.netty.handler.codec.http.HttpHeaderNames.CONNECTION;
-import static io.netty.handler.codec.http.HttpHeaderValues.KEEP_ALIVE;
 import static io.netty.handler.codec.http.HttpResponseStatus.NO_CONTENT;
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
@@ -29,21 +26,10 @@ import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 public class OkHttpOutboundHandler {
     private String backendUrl;
     private OkHttpClient client;
-    private ExecutorService proxyService;
 
     public OkHttpOutboundHandler(String backendUrl) {
         this.backendUrl = backendUrl.endsWith("/") ? backendUrl.substring(0,backendUrl.length()-1) : backendUrl;
         System.out.println(this.backendUrl);
-
-        int cores = Runtime.getRuntime().availableProcessors() * 2;
-        long keepAliveTime = 1000;
-        int queueSize = 2048;
-        //.DiscardPolicy()
-        RejectedExecutionHandler handler = new ThreadPoolExecutor.CallerRunsPolicy();
-        proxyService = new ThreadPoolExecutor(cores, cores,
-                keepAliveTime, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<>(queueSize),
-                new NamedThreadFactory("proxyService"), handler);
-
 
         client =  new OkHttpClient.Builder()
                 .connectTimeout(3, TimeUnit.SECONDS)
