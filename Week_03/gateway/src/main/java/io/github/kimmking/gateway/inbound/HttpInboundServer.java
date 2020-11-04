@@ -22,7 +22,7 @@ public class HttpInboundServer {
     private String proxyServer;
 
     public HttpInboundServer(int port, String proxyServer) {
-        this.port=port;
+        this.port = port;
         this.proxyServer = proxyServer;
     }
 

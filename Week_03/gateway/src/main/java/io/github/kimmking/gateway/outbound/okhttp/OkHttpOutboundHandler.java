@@ -24,13 +24,9 @@ import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
  * @createTime 2020-11-03
  */
 public class OkHttpOutboundHandler {
-    private String backendUrl;
     private OkHttpClient client;
 
-    public OkHttpOutboundHandler(String backendUrl) {
-        this.backendUrl = backendUrl.endsWith("/") ? backendUrl.substring(0,backendUrl.length()-1) : backendUrl;
-        System.out.println(this.backendUrl);
-
+    public OkHttpOutboundHandler() {
         client =  new OkHttpClient.Builder()
                 .connectTimeout(3, TimeUnit.SECONDS)
                 .readTimeout(3, TimeUnit.SECONDS)
@@ -39,8 +35,8 @@ public class OkHttpOutboundHandler {
         System.out.println("client init finished!");
     }
 
-    public void handle(final FullHttpRequest fullRequest, final ChannelHandlerContext ctx) {
-        final String url = this.backendUrl + fullRequest.uri();
+    public void handle(final  String backendUrl, final FullHttpRequest fullRequest, final ChannelHandlerContext ctx) {
+        final String url = backendUrl + fullRequest.uri();
         fetchGet(fullRequest, ctx, url);
     }
 
@@ -71,9 +67,6 @@ public class OkHttpOutboundHandler {
         try {
 
             ResponseBody responseBody = endpointResponse.body();
-            String body = responseBody.toString();
-            System.out.println(body);
-            System.out.println(body.length());
 
             response = new DefaultFullHttpResponse(HTTP_1_1, OK, Unpooled.wrappedBuffer(responseBody.bytes()));
             response.headers().set("Content-Type", "application/json");
