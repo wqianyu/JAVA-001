@@ -15,7 +15,6 @@ import org.apache.http.impl.nio.reactor.IOReactorConfig;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
-import java.util.Map;
 import java.util.concurrent.*;
 
 import static io.netty.handler.codec.http.HttpHeaderNames.CONNECTION;
@@ -62,11 +61,9 @@ public class HttpOutboundHandler {
     }
 
     private void printMiddleRequestHeader(HttpHeaders httpHeaders) {
-        System.out.println("转发请求头为：");
-        for (Map.Entry<String, String> e: httpHeaders) {
-            System.out.println(e.getKey() + " ==> " + e.getValue());
+        if (httpHeaders.contains("nio")) {
+            System.out.println("filter 成功！");
         }
-        System.out.println("----------");
     }
 
     private void fetchGet(final FullHttpRequest inbound, final ChannelHandlerContext ctx, final String url) {
