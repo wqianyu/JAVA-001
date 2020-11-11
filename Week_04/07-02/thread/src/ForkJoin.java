@@ -8,7 +8,7 @@ import java.util.concurrent.RecursiveTask;
 public class ForkJoin {
     public static void main(String[] args) {
         //
-        long startTime = System.currentTimeMillis();
+        long start = System.currentTimeMillis();
 
         //创建分治任务线程池
         ForkJoinPool fjp = new ForkJoinPool(10);
@@ -16,8 +16,10 @@ public class ForkJoin {
         Fibonacci fib = new Fibonacci(36);
         //启动分治任务
         Integer result = fjp.invoke(fib);
-        //输出结果
-        System.out.println("计算时间：" + (System.currentTimeMillis() - startTime) + "ms, 计算结果：" + result);
+        // 确保  拿到result 并输出
+        System.out.println("异步计算结果为："+result);
+
+        System.out.println("使用时间："+ (System.currentTimeMillis() - start) + " ms");
     }
 }
 

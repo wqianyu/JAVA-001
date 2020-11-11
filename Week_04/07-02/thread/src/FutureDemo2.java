@@ -16,7 +16,7 @@ public class FutureDemo2 {
             @Override
             public Integer call() throws Exception {
                 System.out.println("当前线程：" + Thread.currentThread().getName());
-                return sum();
+                return Fibo.sum();
             }
         });
         executor.submit(task);
@@ -25,27 +25,19 @@ public class FutureDemo2 {
         try {
             //这是得到的返回值
             result = task.get();
+            // 确保  拿到result 并输出
+            System.out.println("异步计算结果为："+result);
+
+            System.out.println("使用时间："+ (System.currentTimeMillis()-start) + " ms");
         } catch (ExecutionException |InterruptedException e) {
             e.printStackTrace();
+        } finally {
+            // 然后退出main线程
+            executor.shutdown();
         }
 
-        // 确保  拿到result 并输出
-        System.out.println("异步计算结果为："+result);
 
-        System.out.println("使用时间："+ (System.currentTimeMillis()-start) + " ms");
 
-        // 然后退出main线程
-        executor.shutdown();
-    }
 
-    private static int sum() {
-        return fibo(36);
-    }
-
-    private static int fibo(int a) {
-        if ( a < 2) {
-            return 1;
-        }
-        return fibo(a - 1) + fibo(a - 2);
     }
 }
