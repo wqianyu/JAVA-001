@@ -1,0 +1,10 @@
+{
+  "properties": [
+    {
+      "name": "student.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Whether enable student or not.",
+      "defaultValue": true
+    }
+  ]
+}
