@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns="http://kaitoshy.io/09-03/customtag"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:beans="http://www.springframework.org/schema/beans"
+            targetNamespace="http://kaitoshy.io/09-03/customtag"
+            elementFormDefault="qualified" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <xsd:import namespace="http://www.springframework.org/schema/beans" schemaLocation="http://www.springframework.org/schema/beans/spring-beans.xsd" />
+
+  <xsd:element name="custom-student">
+    <xsd:complexType>
+      <xsd:attribute name="id" type="xsd:string" use="required"/>
+      <xsd:attribute name="code" type="xsd:int" use="required"/>
+      <xsd:attribute name="name" type="xsd:string" use="required"/>
+    </xsd:complexType>
+  </xsd:element>
+
+<!--  <xsd:element name="custom-klass">-->
+<!--    <xsd:complexType>-->
+<!--      <xsd:attribute name="id" type="xsd:string" use="required"/>-->
+<!--      <xsd: name="name" type="beans:collectionType" use="required"/>-->
+<!--    </xsd:complexType>-->
+<!--  </xsd:element>-->
+</xsd:schema>

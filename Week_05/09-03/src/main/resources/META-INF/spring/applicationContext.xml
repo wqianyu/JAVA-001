@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:custom="http://kaitoshy.io/09-03/customtag"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://kaitoshy.io/09-03/customtag
+                           http://kaitoshy.io/09-03/customtag/customtag.xsd
+                           ">
+
+   <custom:custom-student id="student005" code="0888" name="kaitoShy"/>
+
+
+<!--  <custom:custom-klass id="122">-->
+<!--     <custom:custom-student id="student005" code="0888" name="kaitoShy"/>-->
+<!--  </custom:custom-klass>-->
+
+</beans>
