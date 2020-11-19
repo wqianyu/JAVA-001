@@ -1,4 +1,4 @@
-package io.kaitoshy.jdbc;
+package io.kaitoshy.jdbc.version_01;
 
 import java.sql.*;
 
@@ -41,6 +41,7 @@ public class JdbcOrigin {
         }
 
         dropTable(stmt);
+        stmt.close();
         conn.close();
     }
 
