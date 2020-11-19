@@ -1,20 +1,19 @@
-package io.kaitoshy.jdbc.version_02;
+package io.kaitoshy.jdbc.version_03;
 
 import io.kaitoshy.jdbc.version_02.entity.User;
-import io.kaitoshy.jdbc.version_02.util.DbUtil;
+import io.kaitoshy.jdbc.version_03.hikari.HikariDbUtil;
 
-import java.sql.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author kaito
- * @createDate 2020/11/19 00:01
+ * @createDate 2020/11/19 09:41
  */
-public class JdbcOrigin2 {
-
-    public static void main(String[] args)  {
-        DbUtil util = new DbUtil();
+public class HikariDemo {
+    public static void main(String[] args) {
+        HikariDbUtil util = new HikariDbUtil();
         try {
             util.initEnv();
             util.insert(User.builder().id(666L).userName("张三").age(30).build());
@@ -42,5 +41,4 @@ public class JdbcOrigin2 {
             }
         }
     }
-
 }
