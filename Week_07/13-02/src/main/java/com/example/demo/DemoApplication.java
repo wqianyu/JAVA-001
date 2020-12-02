@@ -9,14 +9,20 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ParameterizedPreparedStatementSetter;
 
+import javax.sql.DataSource;
 import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
 @SpringBootApplication
 @Slf4j
 public class DemoApplication implements CommandLineRunner {
-    private final static int MAX_ROW = 10000;
+    private final static int MAX_ROW = 100000;
+    
+    @Autowired
+    private DataSource dataSource;
     
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -28,17 +34,21 @@ public class DemoApplication implements CommandLineRunner {
     
     @Override
     public void run(final String... args) {
-        // 10 w 条批量执行时间：24062ms
-        insertOrdersWithBatchAdd();
-        truncateOrderTable();
+        // 1w 执行：24484ms
+        // 10 w 批量插入后一次提交一次 执行时间：228112ms
+        try {
+            insertOrderWithCustomCommitBatchAdd();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
         
-        // 
+        
+        //  10 w 条单条插入 346691ms
         insertOrdersWithAutoCommit();
         truncateOrderTable();
     }
     
-    private void insertOrdersWithBatchAdd() {
-       
+    private void insertOrderWithCustomCommitBatchAdd() throws SQLException {
         String sql = "insert ss_order(`price` ,`amount` ,`total_price` ,`state` ,`item_id` ,`user_id` ,`create_time`,`update_time`)"
                 + " values(?, ?, ?, ?, ?, ?, ?, ?)";
         ParameterizedPreparedStatementSetter<Order> setter = (preparedStatement, order) -> {
@@ -51,7 +61,6 @@ public class DemoApplication implements CommandLineRunner {
             preparedStatement.setLong(7, order.getCreateTime());
             preparedStatement.setLong(8, order.getUpdateTime());
         };
-        //for (int i = 0; i < 1000000; i++) {
         List<Order> orderList = new LinkedList<>();
         for (int i = 0; i < MAX_ROW; i++) {
             orderList.add(
@@ -64,11 +73,13 @@ public class DemoApplication implements CommandLineRunner {
                             .userId(1000100L)
                             .createTime(1606837999L)
                             .updateTime(1606837999L)
-                    .build());
+                            .build());
         }
         long startTime = System.currentTimeMillis();
+        Connection conn = dataSource.getConnection();
+        conn.setAutoCommit(false);
         jdbcTemplate.batchUpdate(sql, orderList, 10000, setter);
-        //}
+        conn.commit();
         log.info(">=====批量执行{}条数据时间：{}ms", MAX_ROW, System.currentTimeMillis() - startTime);
     }
     
@@ -78,7 +89,7 @@ public class DemoApplication implements CommandLineRunner {
         long startTime = System.currentTimeMillis();
         String sql = "insert ss_order(`price` ,`amount` ,`total_price` ,`state` ,`item_id` ,`user_id` ,`create_time`,`update_time`)"
                 + " values(3.00, 20, 60.00, 1, 100100, 1000100, 1606837999, 1606837999)";
-        for (int i = 0; i < 1000000; i++) {
+        for (int i = 0; i < MAX_ROW; i++) {
             jdbcTemplate.execute(sql);
         }
         log.info(">=====自动提交{}条数据执行时间：{}ms", MAX_ROW, System.currentTimeMillis() - startTime);
