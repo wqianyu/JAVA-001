@@ -19,7 +19,7 @@ import java.util.List;
 @SpringBootApplication
 @Slf4j
 public class DemoApplication implements CommandLineRunner {
-    private final static int MAX_ROW = 100000;
+    private final static int MAX_ROW = 1000000;
     
     @Autowired
     private DataSource dataSource;
@@ -35,7 +35,8 @@ public class DemoApplication implements CommandLineRunner {
     @Override
     public void run(final String... args) {
         // 1w 执行：24484ms
-        // 10 w 批量插入后一次提交一次 执行时间：228112ms
+        // 不加参数rewriteBatchedStatements 10 w 批量插入后一次提交一次 执行时间：228112ms
+        // 加了参数rewriteBatchedStatements 100w 执行时间：32310ms
         try {
             insertOrderWithCustomCommitBatchAdd();
         } catch (SQLException sqlException) {
