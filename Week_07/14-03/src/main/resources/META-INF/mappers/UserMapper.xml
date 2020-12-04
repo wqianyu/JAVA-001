@@ -1,0 +1,22 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kaitoshy.demo.repository.UserRepository">
+    <resultMap id="baseResultMap" type="com.kaitoshy.demo.entity.User">
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+        <result column="pwd" property="pwd" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <update id="createTableIfNotExists">
+        CREATE TABLE IF NOT EXISTS t_user (user_id INT NOT NULL AUTO_INCREMENT, user_name VARCHAR(200), user_name_plain VARCHAR(200), pwd VARCHAR(200), PRIMARY KEY (user_id));
+    </update>
+    
+
+    <insert id="insert">
+        INSERT INTO t_user (user_id, user_name, pwd) VALUES (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{pwd,jdbcType=VARCHAR})
+    </insert>
+    
+    
+    <select id="selectAll" resultMap="baseResultMap">
+        SELECT * FROM t_user;
+    </select>
+</mapper>
