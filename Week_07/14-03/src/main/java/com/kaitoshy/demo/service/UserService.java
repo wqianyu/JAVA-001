@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service("userService")
+@Service
 @Slf4j
 public class UserService {
     
@@ -20,13 +20,16 @@ public class UserService {
     private UserRepository userRepository;
     
     public void initEnvironment() throws SQLException {
+        log.info("-------------- init env begin ---------------");
         userRepository.createTableIfNotExists();
+        log.info("-------------- init env end ---------------");
     }
     
     
     public void processSuccess() throws SQLException {
         log.info("-------------- Process Success Begin ---------------");
         List<Long> userIds = insertData();
+        log.info(">===={}", userIds);
         printData();
         log.info("-------------- Process Success Finish --------------");
     }

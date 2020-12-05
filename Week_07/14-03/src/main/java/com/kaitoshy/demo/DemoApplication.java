@@ -19,7 +19,7 @@ public class DemoApplication implements CommandLineRunner {
     }
     
     @Override
-    public void run(final String... args) throws Exception {
+    public void run(final String... args) throws Exception { 
         userService.initEnvironment();
         userService.processSuccess();
     }
