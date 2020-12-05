@@ -29,3 +29,5 @@ CALL idata ();
 4. 10 w 一条一条的插入执行时间为：346691ms ，具体代码
 ![insertOrdersWithAutoCommit](./image/insertOrdersWithAutoCommit.jpg)
 
+### 14-03
+> 当 spring boot 使用 2.4.0, ss-jdbc 5.0.0 时可以参考  https://github.com/apache/shardingsphere/issues/8299
