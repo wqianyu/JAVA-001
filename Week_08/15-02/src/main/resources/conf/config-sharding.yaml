@@ -1,0 +1,55 @@
+schemaName: sharding_db
+
+dataSources:
+  ds-0:
+    url: jdbc:mysql://127.0.0.1:3306/demo_ds_0?serverTimezone=UTC&useSSL=false
+    username: root
+    password:
+    maxPoolSize: 10
+    minPoolSize: 1
+  ds-1:
+    url: jdbc:mysql://127.0.0.1:3306/demo_ds_1?serverTimezone=UTC&useSSL=false
+      username: root
+      password:
+      maxPoolSize: 10
+      minPoolSize: 1
+
+rules:
+- !SHARDING
+  tables:
+    t_order:
+      actualDataNodes: ds_${0, 3}.t_order_${0..15}
+        tableStrategy:
+          standard:
+            shardingColumn: order_id
+            shardingAlgorithmName: t-order-inline
+        KeyGenerateStrategy:
+          column: order_id
+          keyGeneratorName: snowflake
+  bindingTables:
+    - t_order
+  defaultDatabaseStrategy:
+    standard:
+      shardingColumn: user_id
+      shardingAlgorithmName: database-inline
+  defaultTableStrategy:
+    none:
+
+  shardingAlgorithms:
+    database-inline:
+      type: INLINE
+      props:
+        algorithm-expression: ds_${user_id % 3}
+    t-order-inline:
+      type: INLINE
+      props:
+        algorithm-expression: t_order_${order_id % 2}
+
+  keyGenerators:
+    snowflake:
+      type: SNOWFLAKE
+      props:
+          worker-id: 123
+
+
+

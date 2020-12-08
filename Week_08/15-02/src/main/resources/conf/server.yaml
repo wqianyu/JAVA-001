@@ -1,0 +1,11 @@
+authentication:
+  users:
+    root:
+      password: root
+    shariding:
+      password: sharding
+      authorizedSchemas: sharding_db
+
+props:
+  sql-show: true
+
