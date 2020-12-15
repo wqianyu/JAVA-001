@@ -1,4 +1,4 @@
-package dto;
+package io.kaitoshy.rpcfx.dto;
 
 import lombok.Data;
 
@@ -10,5 +10,5 @@ import lombok.Data;
 public class RpcFxResponse {
     private Integer code;
     private Exception exception;
-    private Object data;
+    private Object result;
 }

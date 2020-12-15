@@ -19,9 +19,22 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <spring-boot.version>2.3.4.RELEASE</spring-boot.version>
+        <rpcfx.version>0.0.1-SNAPSHOT</rpcfx.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>io.kaitoshy</groupId>
+            <artifactId>rpcfx-core</artifactId>
+            <version>${rpcfx.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.kaitoshy</groupId>
+            <artifactId>rpcfx-demo-api</artifactId>
+            <version>${rpcfx.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
@@ -33,6 +46,12 @@
             <optional>true</optional>
         </dependency>
 
+
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.55.Final</version>
+        </dependency>
 
     </dependencies>
 

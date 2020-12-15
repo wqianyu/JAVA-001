@@ -1,10 +1,9 @@
-package dto;
+package io.kaitoshy.rpcfx.dto;
 
 import lombok.Data;
 
 /**
  * @author kaito
- * @createDate 2020/12/14 23:38
  */
 @Data
 public class RpcFxRequest {

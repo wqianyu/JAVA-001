@@ -1,13 +1,34 @@
 package io.kaitoshy.rpcfx.demo.consumer;
 
+
+import io.kaitoshy.rpcfx.demo.api.dto.Account;
+import io.kaitoshy.rpcfx.demo.api.dto.Inquiry;
+import io.kaitoshy.rpcfx.demo.api.interfaces.AccountService;
+import io.kaitoshy.rpcfx.demo.api.interfaces.InquiryService;
+import io.kaitoshy.rpcfx.client.http.okHttp.Rpcfx;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class RpcfxDemoConsumerApplication {
+@Slf4j
+public class RpcfxDemoConsumerApplication implements CommandLineRunner {
+
+    private final static String PRC_URL = "http://localhost:8090/rpc/";
 
     public static void main(String[] args) {
         SpringApplication.run(RpcfxDemoConsumerApplication.class, args);
     }
 
+    @Override
+    public void run(String... args) throws Exception {
+        AccountService userService = Rpcfx.create(AccountService.class, PRC_URL);
+        Account user = userService.getAccountByUsername("aaaaa");
+        log.info("account name is 'aaaaa' from server: {}" , user.getPhone());
+
+        InquiryService inquiryService = Rpcfx.create(InquiryService.class, PRC_URL);
+        Inquiry order = inquiryService.getInquiryById(2222L);
+        log.info("inquiry title={}, buyers_name={}", order.getTitle(), order.getBuyerName());
+    }
 }
