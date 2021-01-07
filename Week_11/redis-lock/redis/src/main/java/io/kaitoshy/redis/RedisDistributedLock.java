@@ -1,6 +1,7 @@
 package io.kaitoshy.redis;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.params.SetParams;
@@ -13,6 +14,7 @@ import java.util.UUID;
  * @author kaitoShy
  */
 @Slf4j
+@Component
 public class RedisDistributedLock implements DistributedLock{
     @Resource
     private JedisPool jedisPool;

@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Configuration;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
+import javax.annotation.Resource;
+
 /**
  * @author kaitoShy
  */
@@ -21,6 +23,7 @@ public class BeanConfiguration {
     }
 
     @Bean(destroyMethod = "close")
+    @Resource
     public JedisPool jedisPool(@Value("${redis.host}") String host) {
         log.info(">====config:{}", jedisPoolConfig());
         return new JedisPool(jedisPoolConfig(), host);
